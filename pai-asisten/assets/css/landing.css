@@ -1,0 +1,61 @@
+/* Halaman depan PAI Asisten — warna diatur di config/config.php (landing.colors) */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'Open Sans',system-ui,sans-serif;background:#fff;color:var(--teks);overflow:hidden}
+
+.home{position:fixed;inset:0;display:grid;grid-template-columns:minmax(220px,38%) 1fr}
+.panel{position:relative;background:var(--utama)}
+.panel svg{position:absolute;inset:0;width:calc(100% + 140px);height:100%}
+.home{--logo-h:clamp(46px,6vw,72px)}  /* UBAH UKURAN LOGO DI SINI */
+.logos{position:absolute;top:18px;left:20px;z-index:3;display:flex;gap:14px;align-items:center;flex-wrap:wrap;max-width:94vw}
+.logos img{height:var(--logo-h);width:auto;object-fit:contain;filter:drop-shadow(0 2px 4px rgba(0,0,0,.18))}
+.logos img:last-child{height:calc(var(--logo-h) * 2);filter:drop-shadow(0 0 2px #fff) drop-shadow(0 0 6px rgba(255,255,255,.9))}  /* logo ke-3, latar transparan */
+.logos img:nth-child(2){height:calc(var(--logo-h) * .8)}
+.main{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:4vw 5vw 18vh 4vw}
+h1{font-family:'Bebas Neue',Impact,sans-serif;font-weight:400;font-size:clamp(40px,5.6vw,96px);line-height:1;margin-bottom:clamp(24px,6vh,80px)}
+.sub{font-family:'DM Serif Display',Georgia,serif;font-size:clamp(20px,2.5vw,44px);line-height:1.45;max-width:22em}
+.cta-wrap{position:absolute;right:6vw;bottom:8vh;z-index:3}
+
+/* Tombol animasi */
+.cta{position:relative;cursor:pointer;color:#fff;text-decoration:none;font:700 clamp(20px,2.6vw,44px)/1 'Open Sans',sans-serif;
+  padding:.62em 1.7em;border-radius:999px;background:var(--tombol);overflow:hidden;isolation:isolate;
+  display:inline-flex;align-items:center;gap:.6em;transition:transform .25s cubic-bezier(.2,.9,.3,1.4);
+  box-shadow:0 10px 30px -8px color-mix(in srgb,var(--tombol) 70%,#000);animation:napas 2.8s ease-in-out infinite}
+.cta::before{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 70%);
+  transform:translateX(-120%);animation:kilau 3.2s ease-in-out infinite}
+.cta .panah{width:1.1em;height:1.1em;transition:transform .3s;animation:geser 1.6s ease-in-out infinite}
+.cta:hover{transform:scale(1.06);animation-play-state:paused}
+.cta:hover .panah{transform:translateX(.35em);animation:none}
+.cta:active{transform:scale(.96)}
+.cta:focus-visible{outline:4px solid var(--teks);outline-offset:4px}
+.ring{position:absolute;inset:0;border-radius:999px;border:3px solid var(--tombol);pointer-events:none;animation:gema 2.8s ease-out infinite}
+.ring.r2{animation-delay:1.4s}
+@keyframes kilau{0%,55%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+@keyframes gema{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.45,1.9);opacity:0}}
+@keyframes napas{0%,100%{box-shadow:0 10px 30px -8px color-mix(in srgb,var(--tombol) 70%,#000)}50%{box-shadow:0 16px 40px -6px color-mix(in srgb,var(--tombol) 90%,#000)}}
+@keyframes geser{0%,100%{transform:translateX(0)}50%{transform:translateX(.25em)}}
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.6);transform:scale(0);animation:riak .7s ease-out forwards;pointer-events:none}
+@keyframes riak{to{transform:scale(4);opacity:0}}
+
+/* Gelombang transisi ke halaman tanya jawab */
+#wipe{position:fixed;z-index:50;width:20px;height:20px;border-radius:50%;background:var(--utama);transform:scale(0);pointer-events:none}
+#wipe.go{animation:wipe .75s cubic-bezier(.7,0,.3,1) forwards}
+@keyframes wipe{to{transform:scale(260)}}
+
+/* Animasi masuk satu kali */
+.main h1,.main .sub,.logos,.cta-wrap{opacity:0;animation:masuk .8s cubic-bezier(.2,.8,.2,1) forwards}
+.logos{animation-delay:.1s}.main h1{animation-delay:.25s}.main .sub{animation-delay:.45s}.cta-wrap{animation-delay:.8s}
+@keyframes masuk{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+
+@media (max-width:780px){
+  .home{grid-template-columns:1fr;grid-template-rows:30% 1fr}
+  .panel svg{display:none}
+  .panel{border-radius:0 0 50% 50%/0 0 36px 36px}
+  .main{padding:6vw 6vw 28vw}
+  .cta-wrap{right:50%;bottom:5vh;animation-name:masukTengah}
+  @keyframes masukTengah{from{opacity:0;transform:translate(50%,24px)}to{opacity:1;transform:translate(50%,0)}}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before{animation-duration:.01ms!important;animation-iteration-count:1!important}
+}
